@@ -1,22 +1,21 @@
-package TestScenarios;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  *
- * Example class: The scenarios here are related to opening, navigating,
- * going around the entire web page and making sure no errors or bugs
- * appear as we navigate over the entire webpage
+ * <b><font color="red">CRITICAL</font>: Navigation, Inputs & Accessibility:</b> These tests will ensure the navigation works properly
+ * on the webpage, ensuring that all hyperlinks lead to where they are supposed to lead
+ * based on their description, buttons are clickable and modify the page appropriately,
+ * the UI of the application is consistent with the data shown… Essentially, we test to
+ * ensure the application has proper navigation.
  *
  */
-public class TestOpening {
+public class NavigationTests {
     private static WebDriver webDriver;
     private static String baseUrl;
 
@@ -26,10 +25,12 @@ public class TestOpening {
         System.out.println(currentUser);
 
         if(currentUser.contains("Users/hajrudin.imamovic")){
+            // In case Hajrudin Imamovic is running the tests on his machine
             System.setProperty("webdriver.gecko.driver", "/Users/hajrudin.imamovic/Documents/Drivers/geckodriver");
             FirefoxOptions options = new FirefoxOptions();
             webDriver = new FirefoxDriver(options);
         } else {
+            // In case Tarik Perviz is running the tests on his machine
             System.out.println("Ovde ti svoj driver i options daj!");
         }
 
@@ -37,19 +38,19 @@ public class TestOpening {
     }
 
     /**
-     *
-     * Example Scenario: The page should be opened with the specified URL, the title
-     * of the page should be retrieved
-     *
+     * Test Scenario Example: Here we want to open the website, ensure we see the homepage, navigate
+     * to the race calendar and navigate back to the homepage
      */
-    @Test
-    public void testOpeningPage(){
-        webDriver.get(baseUrl);
-        String url = webDriver.getCurrentUrl();
-        String title = webDriver.getTitle();
+    @Nested
+    class TestOpenAndNavigate{
+        @Test
+        void testOpenHomepage(){/* code */}
 
-        assertEquals(baseUrl, url);
-        assertEquals("F1 - The Official Home of Formula 1® Racing", title);
+        @Test
+        void testNavigateToRaceCalendar(){}
+
+        @Test
+        void testRaceArticle(){}
     }
 
     @AfterAll
