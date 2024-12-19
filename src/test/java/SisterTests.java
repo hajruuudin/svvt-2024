@@ -1,21 +1,19 @@
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 /**
  *
- * <b><font color="red">CRITICAL</font>: Navigation, Inputs & Accessibility:</b> These tests will ensure the navigation works properly
- * on the webpage, ensuring that all hyperlinks lead to where they are supposed to lead
- * based on their description, buttons are clickable and modify the page appropriately,
- * the UI of the application is consistent with the data shown… Essentially, we test to
- * ensure the application has proper navigation.
+ * <b><font color="red">CRITICAL</font>: Authentication, Session & Metadata:</b> These tests
+ * will ensure that the session data and the authentication section of the application works,
+ * along with other aspects which are not directly correlated to the UI are properly set up and
+ * work as expected. Essentially, we make sure that parts of the application which are related to
+ * security protocols, consistency and authorization are properly initialized and valid.
  *
  */
-public class NavigationTests {
+public class SisterTests {
     private static WebDriver webDriver;
     private static String baseUrl;
 
@@ -35,22 +33,6 @@ public class NavigationTests {
         }
 
         baseUrl = "https://www.formula1.com/";
-    }
-
-    /**
-     * Test Scenario Example: Here we want to open the website, ensure we see the homepage, navigate
-     * to the race calendar and navigate back to the homepage
-     */
-    @Nested
-    class TestOpenAndNavigate{
-        @Test
-        void testOpenHomepage(){/* code */}
-
-        @Test
-        void testNavigateToRaceCalendar(){}
-
-        @Test
-        void testRaceArticle(){}
     }
 
     @AfterAll
