@@ -6,11 +6,11 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 /**
  *
- * <b><font color="white">EXTRA</font>: Other Important Sections:</b> This is just a bonus
- * section of a couple of tests related to visiting sister sites to formula1.com and ensuring
- * they are structured properly and work as expected. They don’t exactly test formula1.com itself,
- * but since all of these websites are in one way or another related to our main website, we decided
- * it is important to include these small tests as well.
+ * <b><font color="white">EXTRA</font>: Informative Aspect & Data Consistency:</b>
+ * Since the application relies heavily on being able to view information about races,
+ * drivers, constructors and teams, we must test to ensure the data we see on the page
+ * is actually visible and present, and that any links or functions involved in the data
+ * section actually work.
  *
  */
 public class ExtraTests {
