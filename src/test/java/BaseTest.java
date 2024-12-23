@@ -1,15 +1,16 @@
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
 
 import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class BaseTest {
     protected static WebDriver webDriver;
@@ -49,8 +50,28 @@ public class BaseTest {
         js = (JavascriptExecutor) webDriver;
         // In case we need some actions executed in our test case:
         actions = new Actions(webDriver);
-        Thread.sleep(2000);
+//        FIX THIS!!!
+//        String currentTime = ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT);
+//        Cookie consentCookie = new Cookie.Builder("consentDate", currentTime)
+//                .domain(".formula1.com")
+//                .path("/")
+//                .isSecure(true)
+//                .build();
+//        webDriver.manage().addCookie(consentCookie);
+//
+//        Cookie consentUUIDCookie = new Cookie.Builder("consentUUID", currentTime)
+//                .domain(".formula1.com")
+//                .path("/")
+//                .isSecure(true)
+//                .build();
+//        webDriver.manage().addCookie(consentUUIDCookie);
 
+        Thread.sleep(2000);
+    }
+
+    @AfterEach
+    void returnToHome(){
+        webDriver.navigate().to(baseUrl);
     }
 
     @AfterAll

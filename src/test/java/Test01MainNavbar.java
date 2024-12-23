@@ -1,12 +1,9 @@
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +22,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * that we can scroll through the page and ensure at least one main element of the page is
  * properly displayed. This test covers design and functionality bugs.
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test01MainNavbar extends BaseTest {
 
+    /**
+     *
+     * Method to scroll over each element of the navbar. Specific to this class of testing.
+     *
+     * @param element_id The id of the navbar element
+     * @throws InterruptedException if the thread is interrupted during execution.
+     */
     private void scrollAndClick(String element_id) throws InterruptedException {
         WebElement navbar_link = webDriver.findElement(By.id(element_id));
         navbar_link.click();
