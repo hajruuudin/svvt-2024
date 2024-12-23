@@ -1,9 +1,14 @@
+import Utils.HelperMethod;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,8 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * <strong/> Category: Navigation & UI </strong> <br/>
  * <strong> Testing the homepage and its markup / content </strong> <br/>
  * This test should cover the homepage of the Formula 1 website. It should ensure basic markup is correct on every
- * test, meaning al headings, paragraphs, formating is done properly and shown on both web and mobile views.
+ * test, meaning al headings, paragraphs, formating is done properly and shown on the whole Homepage.
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test02HomePageMarkup extends BaseTest {
     /**
      * Method to scroll to an element using the JS executor.
@@ -22,7 +28,8 @@ public class Test02HomePageMarkup extends BaseTest {
      * @param element the WebElement we want to scroll to.
      * @param adjust the adjustment scroll if it is necessary.
      */
-    private static void scrollToElement(WebElement element, int adjust){
+    @HelperMethod
+    public static void scrollToElement(WebElement element, int adjust){
         js.executeScript("arguments[0].scrollIntoView(true);", element);
         if(adjust != 0){
             js.executeScript("window.scrollBy(0, " + adjust +")");
@@ -39,7 +46,8 @@ public class Test02HomePageMarkup extends BaseTest {
      * @param adjust_position if true, scrolls the element into view before performing the hover action.
      * @throws InterruptedException if the thread is interrupted during the sleep intervals.
      */
-    private static void styleTesting(WebElement element, String cssProperty, boolean adjust_position) throws InterruptedException {
+    @HelperMethod
+    public static void styleTesting(WebElement element, String cssProperty, boolean adjust_position) throws InterruptedException {
         if(adjust_position){
             scrollToElement(element, -100);
         }
@@ -51,8 +59,46 @@ public class Test02HomePageMarkup extends BaseTest {
         assertNotEquals(style_before_hover, style_after_hover, "Styles should change on hover");
     }
 
+    /**
+     *
+     * Method to test article navigation and display. Should navigate to the article and assert that the heading (and
+     * optionally tag) of the article is consistent with the actual page.
+     *
+     * @param article WebElement representing the article to be clicked.
+     * @param target_title_path String representing the name of the article on the homepage.
+     * @param article_tag_path String representing the name of the tag if it is present on the homepage.
+     * @param hasTag Boolean representing if the tag is present on the original article link.
+     * @param target_tag_path String representing the path of the tag on the target page.
+     * @throws InterruptedException if the thread is interrupted during execution due to various reasons.
+     *
+     */
+    @HelperMethod
+    public static void articleTesting(WebElement article, String target_title_path, String target_tag_path, boolean hasTag, String article_tag_path) throws InterruptedException {
+        String target_title = "";
+        String target_tag = "";
+        String article_tag = "";
+        target_title = article.findElement(By.xpath(target_title_path)).getText();
+        if(hasTag){
+            target_tag = article.findElement(By.xpath(target_tag_path)).getText();
+        }
+        article.click();
+        Thread.sleep(500);
+        String article_headline = webDriver.findElement(By.tagName("h1")).getText();
+        if(hasTag){
+            article_tag = webDriver.findElement(By.xpath(article_tag_path)).getText();
+        }
+        assertEquals(article_headline.toUpperCase(), target_title.toUpperCase(), "Headline from Homepage article and actual article should match!");
+        if(hasTag){
+            assertEquals(article_tag.toUpperCase(), target_tag.toUpperCase(), "Headline from Homepage article and actual article should match!");
+        }
+        Thread.sleep(500);
+        webDriver.navigate().back();
+        Thread.sleep(500);
+    }
+
 
     @Test
+    @Order(1)
     void testHomepageMarkup() throws InterruptedException {
         List<String> headingTitles = Arrays.asList("Editor's Picks", "More news", "Driver Standings", "Constructor Standings", "Abu Dhabi", "Explore F1 topics");
 
@@ -60,10 +106,11 @@ public class Test02HomePageMarkup extends BaseTest {
 
         assertEquals("F1 - The Official Home of Formula 1® Racing", webDriver.getTitle());
 
-        List<WebElement> heading2s = webDriver.findElements(By.tagName("h2"));
-//        ERROR FOUND HERE: Two Elements are extra
+//        List<WebElement> heading2s = webDriver.findElements(By.tagName("h2"));
+//        heading2s.remove(0);
+////        ERROR FOUND HERE: Two Elements are extra
 //        for(WebElement h2 : heading2s){
-//            assertTrue(headingTitles.contains(h2.getText()), "The heading scanned should be included inside the array!");
+//            assertTrue(headingTitles.contains(h2.getText()), "The heading scanned: " + h2.getText() + " should be included inside the array!");
 //        }
 
         WebElement standings_navbar = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[1]/ul"));
@@ -87,6 +134,7 @@ public class Test02HomePageMarkup extends BaseTest {
     }
 
     @Test
+    @Order(2)
     void testHomepageStyles() throws InterruptedException {
         WebElement featured_container = webDriver.findElement(By.xpath("/html/body/main/div[2]/div[2]/div[2]/div"));
         scrollToElement(featured_container, -200);
@@ -127,16 +175,49 @@ public class Test02HomePageMarkup extends BaseTest {
                     "opacity",
                     false);
         }
-
     }
 
     @Test
-    void testHomepageNavigation(){
+    @Order(3)
+    void testHomepageNavigation() throws InterruptedException {
+        Random rand = new Random();
 
-    }
+        WebElement featured_container = webDriver.findElement(By.xpath("/html/body/main/div[2]/div[2]/div[2]/div"));
+        scrollToElement(featured_container, -200);
+        List<WebElement> featured_articles = featured_container.findElements(By.tagName("li"));
+        WebElement featured_a = featured_articles.get(rand.nextInt(7));
+        articleTesting(
+                featured_a,
+                ".//a/div/figcaption/div/p",
+                ".//a/div/figcaption/div/span",
+                true,
+                "/html/body/main/section[1]/section/div/div[1]/section/p/span"
+        );
 
-    @Test
-    void testHomepageMobileView(){
+        WebElement news_container = webDriver.findElement(By.xpath("/html/body/main/div[3]/div[1]/div/div[2]"));
+        scrollToElement(news_container, -200);
+        List<WebElement> news_articles = news_container.findElements(By.tagName("li"));
+        WebElement news_a = news_articles.get(rand.nextInt(4));
+        articleTesting(
+                news_a,
+                ".//a/figcaption/p",
+                ".//a/figcaption/span",
+                true,
+                "/html/body/main/section[1]/section/div/div[1]/section/p/span"
+        );
 
+        for(int i = 0; i < 4; i++){
+            WebElement drivers_container = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[1]/div[1]/div/div/div[2]/ul"));
+            scrollToElement(drivers_container, -200);
+            List<WebElement> driver_cards = drivers_container.findElements(By.tagName("li"));
+            WebElement driver_card = driver_cards.get(rand.nextInt(4));
+            articleTesting(
+                    driver_card,
+                    ".//a/span/span[1]",
+                    "NOT DEFINED",
+                    false,
+                    "NOT DEFINED"
+            );
+        }
     }
 }
