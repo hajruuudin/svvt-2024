@@ -7,9 +7,7 @@ import org.openqa.selenium.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * <b> <font color="red">TEST 01 - CRITICAL</font> </b> <br/>
@@ -25,24 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test01MainNavbar extends BaseTest {
 
-    /**
-     *
-     * Method to scroll over each element of the navbar. Specific to this class of testing.
-     *
-     * @param element_id The id of the navbar element
-     * @throws InterruptedException if the thread is interrupted during execution.
-     */
-    private void scrollAndClick(String element_id) throws InterruptedException {
-        WebElement navbar_link = webDriver.findElement(By.id(element_id));
-        navbar_link.click();
-        Thread.sleep(500);
-        js.executeScript("window.scrollBy(0, 900)");
-        Thread.sleep(500);
-    }
-
-    // Test Case: Open the first nav link and test its initial content
-    @Test
     @Order(1)
+    @Test /* Open the first nav link and test its initial content */
     void testNavigationLatest() throws InterruptedException {
         WebElement navbar_latest = webDriver.findElement(By.id("Latest"));
         navbar_latest.click();
@@ -61,9 +43,8 @@ public class Test01MainNavbar extends BaseTest {
         webDriver.navigate().to(baseUrl);
     }
 
-    // Test Case: Going over the navbar and its links
-    @Test
     @Order(2)
+    @Test /* Going over the navbar and its links */
     void testNavigateOverNavbar() throws InterruptedException {
 
         WebElement navbar_ul = webDriver.findElement(By.xpath("/html/body/header/section[3]/nav/ul"));
@@ -81,9 +62,8 @@ public class Test01MainNavbar extends BaseTest {
         webDriver.navigate().to(baseUrl);
     }
 
-    // Test Navigating in the navbar while it is collapsed.
-    @Test
     @Order(3)
+    @Test /* Navigating in the navbar while it is collapsed. */
     void testCollapsedNavbar() throws InterruptedException {
         webDriver.manage().window().setSize(new Dimension(800, 796));
         Thread.sleep(500);
