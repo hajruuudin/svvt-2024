@@ -3,15 +3,15 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * BaseTest is the foundational class for all test classes in the project.
@@ -38,9 +38,16 @@ public class BaseTest {
 
         if(currentUser.contains("Users/hajrudin.imamovic")){
             // In case Hajrudin Imamovic is running the tests on his machine
-            System.setProperty("webdriver.gecko.driver", "/Users/hajrudin.imamovic/Documents/Drivers/geckodriver");
-            FirefoxOptions options = new FirefoxOptions();
-            webDriver = new FirefoxDriver(options);
+//            System.setProperty("webdriver.gecko.driver", "/Users/hajrudin.imamovic/Documents/Drivers/geckodriver");
+//            FirefoxOptions options = new FirefoxOptions();
+//            webDriver = new FirefoxDriver(options);
+            System.setProperty("webdriver.chrome.driver", "/Users/hajrudin.imamovic/Documents/Drivers/chromedriver");
+            ChromeOptions options = new ChromeOptions();
+
+            options.addArguments("--remote-allow-origins=*");
+            options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.90 Safari/537.36");
+
+            webDriver = new ChromeDriver(options);
         } else {
             // In case Tarik Perviz is running the tests on his machine
             System.out.println("Ovde ti svoj driver i options daj!");
@@ -56,23 +63,9 @@ public class BaseTest {
         js = (JavascriptExecutor) webDriver;
         // In case we need some actions executed in our test case:
         actions = new Actions(webDriver);
-//        FIX THIS!!!
-//        String currentTime = ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT);
-//        Cookie consentCookie = new Cookie.Builder("consentDate", currentTime)
-//                .domain(".formula1.com")
-//                .path("/")
-//                .isSecure(true)
-//                .build();
-//        webDriver.manage().addCookie(consentCookie);
-//
-//        Cookie consentUUIDCookie = new Cookie.Builder("consentUUID", currentTime)
-//                .domain(".formula1.com")
-//                .path("/")
-//                .isSecure(true)
-//                .build();
-//        webDriver.manage().addCookie(consentUUIDCookie);
 
-        Thread.sleep(2000);
+
+        Thread.sleep(3000);
     }
 
     /**
@@ -204,5 +197,62 @@ public class BaseTest {
                 break;
             }
         }
+    }
+
+    @HelperMethod
+    public static void logIn(WebElement email, WebElement password, WebElement submit, String e, String p) throws InterruptedException {
+        email.sendKeys(e);
+        Thread.sleep(1000);
+        password.sendKeys(p);
+
+
+        assertEquals(email.getAttribute("value"), e);
+        assertEquals(password.getAttribute("value"), p);
+
+        Thread.sleep(10000);
+        submit.click();
+    }
+
+    @HelperMethod
+    public static void raceArticleTest(WebElement article, String[][] data) throws InterruptedException {
+        article.click();
+        Thread.sleep(2000);
+//        assertEquals("https://www.formula1.com/en/racing/2021/" + data[0][0], webDriver.getCurrentUrl());
+
+
+        WebElement podium_list = webDriver.findElement(By.xpath("/html/body/main/div[2]/div/section/section/div/div/fieldset/div/div[1]/ul"));
+        scrollToElement(podium_list, 0);
+        List<WebElement> podium = podium_list.findElements(By.tagName("li"));
+        for(int i = 0; i < 3; i++){
+            System.out.println(i);
+            assertTrue(
+                    data[1][i].toUpperCase().contains(podium.get(i).findElement(By.xpath(".//span[2]/span[2]")).getText().toUpperCase()),
+                    "Driver should be: " + data[1][i].toUpperCase() + " but got from the article: " + podium.get(i).findElement(By.xpath(".//span[2]/span[2]")).getText().toUpperCase()
+            );
+            Thread.sleep(500);
+        }
+
+        WebElement circuit_button = webDriver.findElement(By.xpath("/html/body/main/div[1]/div/ul/li[3]/a"));
+        scrollToElement(circuit_button, -100);
+        circuit_button.click();
+        scrollToElement(webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/div/div[2]/div/div[1]/div/div[5]/h2")), 0);
+        Thread.sleep(1000);
+
+        String country = webDriver.findElement(By.tagName("h1")).getText();
+        String circuit_name = webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/legend/div/h2/div")).getText();
+        String first_gp = webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/div/div[2]/div/div[1]/div/div[1]/h2")).getText();
+        String no_of_laps = webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/div/div[2]/div/div[1]/div/div[2]/h2")).getText();
+        String length = webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/div/div[2]/div/div[1]/div/div[3]/h2")).getText();
+        String lap_record = webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/div/div[2]/div/div[1]/div/div[5]/h2")).getText();
+        String lap_record_holder = webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/div/div[2]/div/div[1]/div/div[5]/h2/span")).getText();
+
+        assertEquals(data[0][0].toUpperCase(), country.toUpperCase());
+        assertEquals(data[0][1], circuit_name);
+        assertEquals(data[0][2], first_gp);
+        assertEquals(data[0][3], no_of_laps);
+        assertTrue(data[0][4].contains(length));
+        assertEquals(data[0][5], lap_record);
+        assertTrue(data[0][6].contains(lap_record_holder));
+        Thread.sleep(1000);
     }
 }
