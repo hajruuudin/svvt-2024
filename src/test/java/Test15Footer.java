@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
  * This test should cover the footer on the Formula 1 homepage website and all of its endpoints. The
  * footer should have proper semantics and have links on it function and lead to the proper destinations.
  */
-public class Test03Footer extends BaseTest{
+public class Test15Footer extends BaseTest{
     @Test
     void testFooterSponsorLinks(){};
 
