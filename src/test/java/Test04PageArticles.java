@@ -48,7 +48,7 @@ public final class Test04PageArticles extends BaseTest {
         for(WebElement tag : article_tags){
             styleTesting(
                     tag.findElement(By.tagName("a")),
-                    "--tw-shadow",
+                    "box-shadow",
                     false
             );
         }

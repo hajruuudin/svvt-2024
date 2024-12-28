@@ -137,10 +137,10 @@ public class BaseTest {
             scrollToElement(element, -100);
         }
         String style_before_hover = element.getCssValue(cssProperty);
-        Thread.sleep(300);
+        Thread.sleep(100);
         actions.moveToElement(element).perform();
         String style_after_hover = element.getCssValue(cssProperty);
-        Thread.sleep(300);
+        Thread.sleep(100);
         assertNotEquals(style_before_hover, style_after_hover, "Styles should change on hover");
     }
 
@@ -199,6 +199,11 @@ public class BaseTest {
         }
     }
 
+    /**
+     *
+     * Method To Help with Logging in! To-do...
+     *
+     */
     @HelperMethod
     public static void logIn(WebElement email, WebElement password, WebElement submit, String e, String p) throws InterruptedException {
         email.sendKeys(e);
@@ -213,18 +218,26 @@ public class BaseTest {
         submit.click();
     }
 
+    /**
+     *
+     * Method to check the given article data against a specified data set. It compares on article randomly selected
+     * from the UI and also proivdes the appropriate data from the DataProvider.
+     *
+     * @param article WebElement representing the race article itself.
+     * @param data 2D Array representing the data to be used as a check. The first array is general data, the second is the race podium.
+     * @throws InterruptedException in case the method is interrupted by system calls or anything related.
+     * @see Utils.DataProvider
+     *
+     */
     @HelperMethod
     public static void raceArticleTest(WebElement article, String[][] data) throws InterruptedException {
         article.click();
         Thread.sleep(2000);
-//        assertEquals("https://www.formula1.com/en/racing/2021/" + data[0][0], webDriver.getCurrentUrl());
-
 
         WebElement podium_list = webDriver.findElement(By.xpath("/html/body/main/div[2]/div/section/section/div/div/fieldset/div/div[1]/ul"));
         scrollToElement(podium_list, 0);
         List<WebElement> podium = podium_list.findElements(By.tagName("li"));
         for(int i = 0; i < 3; i++){
-            System.out.println(i);
             assertTrue(
                     data[1][i].toUpperCase().contains(podium.get(i).findElement(By.xpath(".//span[2]/span[2]")).getText().toUpperCase()),
                     "Driver should be: " + data[1][i].toUpperCase() + " but got from the article: " + podium.get(i).findElement(By.xpath(".//span[2]/span[2]")).getText().toUpperCase()
@@ -235,7 +248,7 @@ public class BaseTest {
         WebElement circuit_button = webDriver.findElement(By.xpath("/html/body/main/div[1]/div/ul/li[3]/a"));
         scrollToElement(circuit_button, -100);
         circuit_button.click();
-        scrollToElement(webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/div/div[2]/div/div[1]/div/div[5]/h2")), 0);
+        scrollToElement(webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/div/div[2]/div/div[1]/div/div[5]/h2")), -400);
         Thread.sleep(1000);
 
         String country = webDriver.findElement(By.tagName("h1")).getText();
@@ -246,13 +259,14 @@ public class BaseTest {
         String lap_record = webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/div/div[2]/div/div[1]/div/div[5]/h2")).getText();
         String lap_record_holder = webDriver.findElement(By.xpath("/html/body/main/div[2]/div/div[2]/fieldset/div/div[2]/div/div[1]/div/div[5]/h2/span")).getText();
 
-        assertEquals(data[0][0].toUpperCase(), country.toUpperCase());
-        assertEquals(data[0][1], circuit_name);
-        assertEquals(data[0][2], first_gp);
-        assertEquals(data[0][3], no_of_laps);
-        assertTrue(data[0][4].contains(length));
-        assertEquals(data[0][5], lap_record);
-        assertTrue(data[0][6].contains(lap_record_holder));
+        assertEquals(data[0][0].toUpperCase(), country.toUpperCase(), "Country names should b equal");
+        assertEquals(data[0][1], circuit_name, "Circuit names should be equal");
+        assertEquals(data[0][2], first_gp, "Inagrual GP should be equal");
+        assertEquals(data[0][3], no_of_laps, "Number of laps should be equal");
+        assertTrue(data[0][4].contains(length), "The length should be as specified in the data! " + data[0][4] + " " + length);
+        assertEquals(data[0][5], lap_record.substring(0, 8), "Lap record should be as specified in the data!");
+        assertTrue(lap_record_holder.contains(data[0][6]), "Lap record holder should be in the data for the circuit!" + data[0][6] + " " + lap_record_holder);
         Thread.sleep(1000);
     }
+
 }
