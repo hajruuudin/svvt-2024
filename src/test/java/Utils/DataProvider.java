@@ -1,7 +1,10 @@
 package Utils;
 
+/**
+ * This class is used to provide any fixed data set we want to check element against in some test cases.
+ */
 public class DataProvider {
-    // Data specifically used to test the racing circuit articles
+    // Data specifically used to test the racing circuit articles : TEST CASE 09
     public static String[][][] f1_2021_season = {
             {
                     {"Country", "Circuit Name", "Inaugural Grand Prix", "Laps", "Lap Length", "Fastest Lap", "Fastest Lap Holder"},
@@ -12,11 +15,11 @@ public class DataProvider {
                     {"Lewis Hamilton", "Max Verstappen", "Valtteri Bottas"}
             },
             {
-                    {"Emilia-Romagna", "Imola Circuit", "1980", "63", "4.909 km", "1:15.484", "Lewis Hamilton"},
+                    {"Emilia-Romagna", "Autodromo Internazionale Enzo e Dino Ferrari", "1980", "63", "4.909 km", "1:15.484", "Lewis Hamilton"},
                     {"Max Verstappen", "Lewis Hamilton", "Lando Norris"}
             },
             {
-                    {"Portugal", "Algarve International Circuit", "2020", "66", "4.653 km", "1:18.750", "Lewis Hamilton"},
+                    {"Portugal", "Autódromo Internacional do Algarve", "2020", "66", "4.653 km", "1:18.750", "Lewis Hamilton"},
                     {"Lewis Hamilton", "Max Verstappen", "Valtteri Bottas"}
             },
             {
@@ -36,7 +39,7 @@ public class DataProvider {
                     {"Max Verstappen", "Lewis Hamilton", "Sergio Perez"}
             },
             {
-                    {"Styrian", "Red Bull Ring", "2020", "71", "4.318 km", "1:05.619", "Carlos Sainz"},
+                    {"Styria", "Red Bull Ring", "2020", "71", "4.318 km", "1:05.619", "Carlos Sainz"},
                     {"Max Verstappen", "Lewis Hamilton", "Valtteri Bottas"}
             },
             {
@@ -60,7 +63,7 @@ public class DataProvider {
                     {"Max Verstappen", "Lewis Hamilton", "Valtteri Bottas"}
             },
             {
-                    {"Italy", "Monza Circuit", "1950", "53", "5.793 km", "1:21.046", "Rubens Barrichello"},
+                    {"Italy", "Autodromo Nazionale Monza", "1950", "53", "5.793 km", "1:21.046", "Rubens Barrichello"},
                     {"Daniel Ricciardo", "Lando Norris", "Valtteri Bottas"}
             },
             {
@@ -68,11 +71,11 @@ public class DataProvider {
                     {"Lewis Hamilton", "Max Verstappen", "Carlos Sainz"}
             },
             {
-                    {"Turkey", "Istanbul Park", "2005", "58", "5.338 km", "1:24.770", "Juan Pablo Montoya"},
+                    {"Turkey", "Intercity Istanbul Park", "2005", "58", "5.338 km", "1:24.770", "Juan Pablo Montoya"},
                     {"Valtteri Bottas", "Max Verstappen", "Sergio Perez"}
             },
             {
-                    {"United States", "Circuit of the Americas", "2012", "56", "5.513 km", "1:36.169", "Charles Leclerc"},
+                    {"United States", "Circuit of The Americas", "2012", "56", "5.513 km", "1:36.169", "Charles Leclerc"},
                     {"Max Verstappen", "Lewis Hamilton", "Sergio Perez"}
             },
             {
@@ -80,15 +83,15 @@ public class DataProvider {
                     {"Max Verstappen", "Lewis Hamilton", "Sergio Perez"}
             },
             {
-                    {"Brazil", "Interlagos Circuit", "1973", "71", "4.309 km", "1:10.540", "Valtteri Bottas"},
+                    {"Brazil", "Autódromo José Carlos Pace", "1973", "71", "4.309 km", "1:10.540", "Valtteri Bottas"},
                     {"Lewis Hamilton", "Max Verstappen", "Valtteri Bottas"}
             },
             {
-                    {"Qatar", "Losail International Circuit", "2021", "57", "5.380 km", "1:23.196", "Max Verstappen"},
+                    {"Qatar", "Lusail International Circuit", "2021", "57", "5.380 km", "1:23.196", "Max Verstappen"},
                     {"Lewis Hamilton", "Max Verstappen", "Fernando Alonso"}
             },
             {
-                    {"Saudi Arabia", "Jeddah Street Circuit", "2021", "50", "6.174 km", "1:30.734", "Lewis Hamilton"},
+                    {"Saudi Arabia", "Jeddah Corniche Circuit", "2021", "50", "6.174 km", "1:30.734", "Lewis Hamilton"},
                     {"Lewis Hamilton", "Max Verstappen", "Valtteri Bottas"}
             },
             {
@@ -96,5 +99,4 @@ public class DataProvider {
                     {"Max Verstappen", "Lewis Hamilton", "Carlos Sainz"}
             }
     };
-
 }
