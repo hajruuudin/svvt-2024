@@ -18,5 +18,5 @@ public class Test05SignUp {
     //
     // ili umjesto ovoga samo staviti ovde variables koje ce napravit account
     // MOGUCE DA NECE RADIT JEBAJ GA
-    // NE SPUJ BAJRO
+    // NE PSUJ BAJRO
 }
