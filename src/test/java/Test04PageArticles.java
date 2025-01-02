@@ -44,7 +44,7 @@ public final class Test04PageArticles extends BaseTest {
 
         WebElement article_tags_list = webDriver.findElement(By.xpath("/html/body/main/section[1]/section/section[1]/ul"));
         List<WebElement> article_tags = article_tags_list.findElements(By.tagName("li"));
-        article_tags.remove(article_tags.size() - 1);
+        article_tags.removeLast();
         for(WebElement tag : article_tags){
             styleTesting(
                     tag.findElement(By.tagName("a")),
@@ -57,7 +57,7 @@ public final class Test04PageArticles extends BaseTest {
         for(int i = 0; i < number_of_tags; i++){
             WebElement tags_list = webDriver.findElement(By.xpath("/html/body/main/section[1]/section/section[1]/ul"));
             List<WebElement> tags = tags_list.findElements(By.tagName("li"));
-            tags.remove(tags.size() - 1);
+            tags.removeLast();
             articleTesting(
                     tags.get(i).findElement(By.tagName("a")),
                     ".//span",
@@ -78,7 +78,7 @@ public final class Test04PageArticles extends BaseTest {
         featured_a.click();
 
         WebElement button_container = webDriver.findElement(By.xpath("/html/body/main/section[3]/div/section/div"));
-        scrollToElement(button_container, -200);
+        scrollToElement(button_container, -400);
 
         String article_query = webDriver.getCurrentUrl().substring(41);
         WebElement facebook = button_container.findElement(By.xpath(".//button[1]"));
