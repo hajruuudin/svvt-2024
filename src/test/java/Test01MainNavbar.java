@@ -37,6 +37,7 @@ public class Test01MainNavbar extends BaseTest {
 
         WebElement firstArticle = webDriver.findElement(By.xpath("/html/body/main/section[1]/section[2]/fieldset/section/ul[1]/li/a"));
         firstArticle.click();
+        Thread.sleep(500);
         assertTrue(webDriver.getCurrentUrl().contains("https://www.formula1.com/en/latest/article"));
         Thread.sleep(500);
 

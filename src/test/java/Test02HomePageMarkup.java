@@ -24,35 +24,26 @@ public class Test02HomePageMarkup extends BaseTest {
     @Order(1)
     @Test /* Test the homepage markup, like the title, headings and the URL and changes on the website */
     void testHomepageMarkup() throws InterruptedException {
-        List<String> headingTitles = Arrays.asList("Editor's Picks", "More news", "Driver Standings", "Constructor Standings", "Abu Dhabi", "Explore F1 topics");
-
         assertEquals("https://www.formula1.com/", webDriver.getCurrentUrl());
 
         assertEquals("F1 - The Official Home of Formula 1® Racing", webDriver.getTitle());
 
-//        List<WebElement> heading2s = webDriver.findElements(By.tagName("h2"));
-//        heading2s.remove(0);
-////        ERROR FOUND HERE: Two Elements are extra
-//        for(WebElement h2 : heading2s){
-//            assertTrue(headingTitles.contains(h2.getText()), "The heading scanned: " + h2.getText() + " should be included inside the array!");
-//        }
-
-        WebElement standings_navbar = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[1]/ul"));
+        WebElement standings_navbar = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[2]/ul"));
         scrollToElement(standings_navbar, -200);
         List<WebElement> navbar_nav = standings_navbar.findElements(By.tagName("li"));
 
         navbar_nav.get(0).click();
-        WebElement driver_standings = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[1]/div[1]/div/h2"));
-        assertEquals("Driver Standings", driver_standings.getText());
+        WebElement driver_standings = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[2]/div[1]/div/h2"));
+        assertEquals("2024 Driver Standings", driver_standings.getText());
         Thread.sleep(500);
 
         navbar_nav.get(1).click();
-        WebElement constructor_standings = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[1]/div[2]/div/h2"));
-        assertEquals("Constructor Standings", constructor_standings.getText());
+        WebElement constructor_standings = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[2]/div[2]/div/h2"));
+        assertEquals("2024 Constructor Standings", constructor_standings.getText());
         Thread.sleep(500);
 
         navbar_nav.get(2).click();
-        WebElement lastrace_standings = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[1]/div[3]/div/div[1]/h2"));
+        WebElement lastrace_standings = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[2]/div[3]/div/div[1]/h2"));
         assertEquals("ABU DHABI", lastrace_standings.getText());
         Thread.sleep(500);
     }
@@ -80,7 +71,7 @@ public class Test02HomePageMarkup extends BaseTest {
                     false);
         }
 
-        WebElement driver_list = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[1]/div[1]/div/div/div[2]/ul"));
+        WebElement driver_list = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[2]/div[1]/div/div/div[2]/ul"));
         scrollToElement(driver_list, -200);
         List<WebElement> drivers = driver_list.findElements(By.tagName("li"));
         for(WebElement da : drivers){
@@ -90,7 +81,7 @@ public class Test02HomePageMarkup extends BaseTest {
                     false );
         }
 
-        WebElement footer_list = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[3]/div/fieldset/ul"));
+        WebElement footer_list = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[4]/div/fieldset/ul"));
         scrollToElement(footer_list, -100);
         List<WebElement> footer_tabs = footer_list.findElements(By.tagName("li"));
         for(WebElement ft : footer_tabs){
@@ -131,7 +122,7 @@ public class Test02HomePageMarkup extends BaseTest {
         );
 
         for(int i = 0; i < 4; i++){
-            WebElement drivers_container = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[1]/div[1]/div/div/div[2]/ul"));
+            WebElement drivers_container = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[2]/div[1]/div/div/div[2]/ul"));
             scrollToElement(drivers_container, -200);
             List<WebElement> driver_cards = drivers_container.findElements(By.tagName("li"));
             WebElement driver_card = driver_cards.get(rand.nextInt(4));

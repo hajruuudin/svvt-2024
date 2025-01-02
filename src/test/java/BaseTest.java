@@ -1,10 +1,16 @@
 import Utils.HelperMethod;
+//import lombok.extern.slf4j.Slf4j;
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import net.lightbody.bmp.client.ClientUtil;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
 
 import java.time.Duration;
@@ -13,10 +19,20 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 /**
- * BaseTest is the foundational class for all test classes in the project.
- * It provides shared setup, teardown, and utility methods to facilitate
- * the execution and validation of Selenium-based tests.
+ * This is the Base class for all other derived test scenarios. It includes the setup variables
+ * and set up methods accessed in every other test. Every test case implements this class as the
+ * webDriver and driver methods are initialised here, along with the teardown.
+ * <br/><br/>
+ * The class will:<br/>
+ * - Initialise the WebDriver, Baseurl, Javascript Executor and Actions variables<br/>
+ * - Set up the driver options for the Selenium driver (Chrome)<br/>
+ * - Navigate back to the original URL after each individual test case<br/>
+ * - Quit the Selenium web driver upon completion
+ * <br/><br/>
+ * Additionally, any methods which are frequently used during our testing are extracted to this class and
+ * provided in any descendant class.
  */
 public class BaseTest {
     protected static WebDriver webDriver;
@@ -38,27 +54,45 @@ public class BaseTest {
 
         if(currentUser.contains("Users/hajrudin.imamovic")){
             // In case Hajrudin Imamovic is running the tests on his machine
-//            System.setProperty("webdriver.gecko.driver", "/Users/hajrudin.imamovic/Documents/Drivers/geckodriver");
-//            FirefoxOptions options = new FirefoxOptions();
-//            webDriver = new FirefoxDriver(options);
             System.setProperty("webdriver.chrome.driver", "/Users/hajrudin.imamovic/Documents/Drivers/chromedriver");
-            ChromeOptions options = new ChromeOptions();
 
-            options.addArguments("--remote-allow-origins=*");
-            options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.90 Safari/537.36");
-
-            webDriver = new ChromeDriver(options);
         } else {
             // In case Tarik Perviz is running the tests on his machine
-            System.out.println("Ovde ti svoj driver i options daj!");
+            System.out.println("Ovde ti svoj driver i daj!");
         }
+
+        // These are some options which we tried to add to bypass the bot detection for the log in and sign up tests
+        // Unfortunately, nothing seemed to work so far. Here's a rundown of what we tried:
+        // - Making the browser look like a human is controlling it: FAILED
+        // - Using custom arguments to remove bot-like behaviour: FAILED
+        // - Using a custom proxy server with node.js cors-anywhere library: FAILED
+        // - Using an in-build java library: BrowserMobProxy: FAILED al treba jos pokusat
+        // - Run the browser in headless mode only for the log in test: FAILED
+        // - Add cookies to the session to mimic logging in: FAILED
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.90 Safari/537.36");
+        options.addArguments("--start-maximized");
+        options.addArguments("--ignore-certificate-errors");
+        options.addArguments("--disable-features=IsolateOrigins,site-per-process");
+        options.addArguments("--disable-blink-features=AutomationControlled");
+        options.setExperimentalOption("useAutomationExtension", false);
+        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+        options.addArguments("--disable-extensions");
+        options.addArguments("--enable-javascript");
+        options.addArguments("--disable-cookie-encryption");
+        options.addArguments("--disable-extensions");
+        options.addArguments("--disable-component-update");
+        options.addArguments("--disable-background-networking");
+
+        webDriver = new ChromeDriver(options);
 
         baseUrl = "https://www.formula1.com/";
         webDriver.get(baseUrl);
         // Because we sometimes ran into the problem of some areas not loading before
         // selenium gets to them, we decided to add this waiting setting before adding an error.
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        webDriver.manage().window().maximize();
         // In case we want to execute javascript in our test case:
         js = (JavascriptExecutor) webDriver;
         // In case we need some actions executed in our test case:
@@ -201,7 +235,14 @@ public class BaseTest {
 
     /**
      *
-     * Method To Help with Logging in! To-do...
+     * Method To Help with Logging in.
+     *
+     * @param email The WebElement email input
+     * @param password The WebElement password input
+     * @param submit The WebElement that acts as the submit button
+     * @param e The email we want to send
+     * @param p The password we want to send
+     * @throws InterruptedException In case of any errors or interruptions.
      *
      */
     @HelperMethod
@@ -214,7 +255,7 @@ public class BaseTest {
         assertEquals(email.getAttribute("value"), e);
         assertEquals(password.getAttribute("value"), p);
 
-        Thread.sleep(10000);
+        Thread.sleep(1000);
         submit.click();
     }
 
@@ -269,4 +310,18 @@ public class BaseTest {
         Thread.sleep(1000);
     }
 
+    /**
+     * Method to test if a given button will lead to the login page in case the user is not logged in already.
+     *
+     * @param button The WebElement that acts as a "Subscribe" button in the actual page.
+     * @throws InterruptedException In case any errors and interruptions occur.
+     */
+    @HelperMethod
+    public static void authorisationCheck(WebElement button) throws InterruptedException {
+        scrollToElement(button, 0);
+        actions.moveToElement(button).click().perform();
+        Thread.sleep(1000);
+        assertEquals("https://account.formula1.com/#/en/register?lead_source=web_f1core&redirect=https%253A%252F%252Faccount.formula1.com%252F%2523%252Fen%252Fsubscription", webDriver.getCurrentUrl());
+        webDriver.navigate().to("https://www.formula1.com/en-ba/subscribe-to-f1-tv");
+    }
 }
