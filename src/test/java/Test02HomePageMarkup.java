@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test02HomePageMarkup extends BaseTest {
-
     @Order(1)
     @Test /* Test the homepage markup, like the title, headings and the URL and changes on the website */
     void testHomepageMarkup() throws InterruptedException {

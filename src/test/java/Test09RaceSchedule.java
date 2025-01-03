@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test09RaceSchedule extends BaseTest{
-
     @Order(1)
     @Test /* Test to cover if the dropdown navigation is functional in the "Schedule" section */
     void testRaceScheduleNavbar() throws InterruptedException {
