@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public final class Test04PageArticles extends BaseTest {
-
     @Order(1)
     @Test/* Test navigating to an article and comparing the Heading and Tag of the article with the Actual Page */
     void testArticleConsistency() throws InterruptedException {

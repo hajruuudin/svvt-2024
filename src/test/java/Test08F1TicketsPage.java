@@ -1,5 +1,7 @@
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -7,6 +9,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * <b> <font color="red">TEST 08 - CRITICAL</font> </b> <br/>
+ * <strong/> Category: Navigation & UI </strong> <br/>
+ * <strong> Testing the tickets page </strong> <br/>
+ * This scenario pretty much goes over the Tickets Buying page, another
+ * sister website to F1, going mainly over its data
+ * and consistency, along with the UI. It should assert that the data is set up for
+ * proper navigation and that the data is accurate on all tickets...
+ */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test08F1TicketsPage extends BaseTest{
     @Order(1)
     @Test

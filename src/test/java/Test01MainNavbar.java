@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test01MainNavbar extends BaseTest {
-
     @Order(1)
     @Test /* Open the first nav link and test its initial content */
     void testNavigationLatest() throws InterruptedException {

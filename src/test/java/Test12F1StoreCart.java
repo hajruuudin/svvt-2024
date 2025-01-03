@@ -1,3 +1,8 @@
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 /**
  * <b> <font color="white">TEST 12 - EXTRA</font> </b> <br/>
  * <strong/> Category: Navigation, UI, Data Consistency </strong> <br/>
@@ -8,5 +13,13 @@
  *  - assert that the items we added really are the items in the cart.<br/>
  *  - delete the items from the cart.<br/>
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test12F1StoreCart {
+    @Order(1)
+    @Test
+    void testEmptyF1StoreCart(){};
+
+    @Order(2)
+    @Test
+    void testNotEmptyF1StoreCart(){};
 }

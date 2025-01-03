@@ -58,4 +58,10 @@ public class NonFunctionalTests extends BaseTest {
         );
         Thread.sleep(1000);
     }
+
+    @Order(2)
+    @Test
+    void testRegister(){
+        // TODO - registracija template
+    }
 }
