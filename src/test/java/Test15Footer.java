@@ -19,8 +19,4 @@ public class Test15Footer extends BaseTest{
     @Order(2)
     @Test
     void testFooterLinks(){};
-
-    @Order(3)
-    @Test
-    void testFooterMarkup(){};
 }

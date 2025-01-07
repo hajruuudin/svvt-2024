@@ -27,7 +27,7 @@ public class Test09RaceSchedule extends BaseTest{
         WebElement schedule_link = webDriver.findElement(By.id("Schedule"));
         schedule_link.click();
 
-        assertEquals("https://www.formula1.com/en/racing/2024", webDriver.getCurrentUrl());
+        assertEquals("https://www.formula1.com/en/racing/2025", webDriver.getCurrentUrl());
 
         actions.moveToElement(schedule_link);
         Thread.sleep(1000);
