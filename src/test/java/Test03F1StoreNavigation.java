@@ -11,6 +11,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  * difference being the subdomain. Being one of the three main sites related to F1 (Home, Store, Tickets), it is
  * vital to test it. This test will navigate through the main navbar of the F1 store and the searching criteria,
  * ensuring it works as expected.
+ * test
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Test03F1StoreNavigation {
