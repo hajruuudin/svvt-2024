@@ -5,7 +5,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +27,14 @@ public class Test08F1TicketsPage extends BaseTest{
     void testF1TicketsMarkup() throws InterruptedException {
         WebElement tickets_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[3]/a"));
         tickets_button.click();
-        switchWindow(webDriver.getWindowHandle());
+        Set<String> windowHandles = webDriver.getWindowHandles();
+        Iterator<String> iterator = windowHandles.iterator();
+        String originalTab = iterator.next();
+        String newTab = iterator.next();
+        webDriver.switchTo().window(newTab);
+        webDriver.switchTo().window(originalTab);
+        webDriver.close();
+        webDriver.switchTo().window(newTab);
         Thread.sleep(5000);
 
         String page_title = webDriver.getTitle();

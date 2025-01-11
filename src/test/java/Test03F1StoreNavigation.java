@@ -6,6 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -26,7 +29,14 @@ public class Test03F1StoreNavigation extends BaseTest {
     void testMainNavbarFunctionality() throws InterruptedException {
         WebElement store_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[2]/a"));
         store_button.click();
-        switchWindow(webDriver.getWindowHandle());
+        Set<String> windowHandles = webDriver.getWindowHandles();
+        Iterator<String> iterator = windowHandles.iterator();
+        String originalTab = iterator.next(); // Handle of the original tab
+        String newTab = iterator.next();
+        webDriver.switchTo().window(newTab);
+        webDriver.switchTo().window(originalTab);
+        webDriver.close();
+        webDriver.switchTo().window(newTab);
         Thread.sleep(5000);
 
         String page_title = webDriver.getTitle();
