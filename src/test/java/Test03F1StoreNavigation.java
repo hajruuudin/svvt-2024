@@ -31,7 +31,7 @@ public class Test03F1StoreNavigation extends BaseTest {
         store_button.click();
         Set<String> windowHandles = webDriver.getWindowHandles();
         Iterator<String> iterator = windowHandles.iterator();
-        String originalTab = iterator.next(); // Handle of the original tab
+        String originalTab = iterator.next();
         String newTab = iterator.next();
         webDriver.switchTo().window(newTab);
         webDriver.switchTo().window(originalTab);
