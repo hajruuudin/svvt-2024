@@ -56,7 +56,7 @@ public class BaseTest {
 
         } else {
             // In case Tarik Perviz is running the tests on his machine
-            System.out.println("Ovde ti svoj driver i daj!");
+
             System.setProperty("webdriver.chrome.driver", "C:/Users/TarikPerviz/selenium/chromedriver-win64/chromedriver.exe");
         }
 
