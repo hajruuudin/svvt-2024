@@ -4,11 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-
 import java.util.Iterator;
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -22,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * test
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test03F1StoreNavigation extends BaseTest {
-    /* TO DO */
     @Order(1)
-    @Test /* Test the navigation of the main navbar, as well as assert that the links work */
+    @Test /* Test the upper navbar, the one with the "My account" and "Currency", ensuring it works */
     void testMainNavbarFunctionality() throws InterruptedException {
         WebElement store_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[2]/a"));
         store_button.click();
@@ -152,7 +149,7 @@ public class Test03F1StoreNavigation extends BaseTest {
 
     };
     @Order(2)
-    @Test /* Test the upper navbar, the one with the "My account" and "Currency", ensuring it works */
+    @Test /* Test the navigation of the secondary navbar, as well as assert that the links work */
     void testSecondaryNavbar() throws InterruptedException {
         WebElement store_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[2]/a"));
         store_button.click();
@@ -334,11 +331,5 @@ public class Test03F1StoreNavigation extends BaseTest {
         clearance.click();
         Thread.sleep(500);
         assertEquals("https://f1store.formula1.com/en/sale-items/os-12+z-9170283383-2142475257", webDriver.getCurrentUrl());
-
-
-
-
-
-
     }
 }

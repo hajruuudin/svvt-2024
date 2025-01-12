@@ -4,11 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-
 import java.util.Iterator;
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -22,9 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *  - delete the items from the cart.<br/>
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test12F1StoreCart extends BaseTest {
     @Order(1)
-    @Test
+    @Test /* Test the F1 shopping cart in the case we do not add anyhting */
     void testEmptyF1StoreCart() throws InterruptedException {
         WebElement store_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[2]/a"));
         store_button.click();
@@ -47,7 +45,7 @@ public class Test12F1StoreCart extends BaseTest {
     };
 
     @Order(2)
-    @Test
+    @Test /* Test SHOULD test the F1 shopping cart in the case we add something in it */
     void testNotEmptyF1StoreCart() throws InterruptedException {
         WebElement store_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[2]/a"));
         store_button.click();
@@ -63,12 +61,12 @@ public class Test12F1StoreCart extends BaseTest {
         WebElement driver = webDriver.findElement(By.xpath("/html/body/div[2]/div/div[7]/div[1]/div/nav/div[2]/div/div[1]/div[2]/ul/li[1]/a"));
         driver.click();
         Thread.sleep(500);
-        WebElement max = webDriver.findElement(By.xpath("/html/body/div[2]/div/div[7]/div[2]/div[2]/div/div[2]/div[2]/div/div[1]/div[1]/div/a/img"));
+        WebElement max = webDriver.findElement(By.xpath("/html/body/div[2]/div/div[7]/div[2]/div[2]/div/div[2]/div[1]/div/div[1]/div[1]/div/a/img"));
         max.click();
         Thread.sleep(500);
         WebElement xlRadioButton = webDriver.findElement(By.xpath("//label[@class='radio size-selector-button available']//input[@value='XL']"));
         xlRadioButton.click();
-        Thread.sleep(500);
+
         WebElement addToCart = webDriver.findElement(By.xpath("/html/body/div[2]/div/div[6]/div[2]/div[11]/div/div/div[5]/div/div[2]/div/div[1]/div[1]/button"));
         addToCart.click();
         Thread.sleep(45000);
@@ -80,6 +78,5 @@ public class Test12F1StoreCart extends BaseTest {
         WebElement delete = webDriver.findElement(By.xpath("/html/body/div[2]/div/div[7]/div/div[1]/div[1]/div[2]/div/div[3]/button"));
         delete.click();
         Thread.sleep(500);
-
     };
 }

@@ -1,9 +1,7 @@
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -15,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * their functionality & display / styling.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public final class Test04PageArticles extends BaseTest {
     @Order(1)
     @Test/* Test navigating to an article and comparing the Heading and Tag of the article with the Actual Page */

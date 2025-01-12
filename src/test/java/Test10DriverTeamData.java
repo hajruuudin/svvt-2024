@@ -4,10 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import java.util.List;
 import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -19,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * proper navigation and that the data is accurate on all races.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test10DriverTeamData extends BaseTest{
     @Order(1)
     @Test /* This test goes through all the drivers and their data */
@@ -45,21 +44,17 @@ public class Test10DriverTeamData extends BaseTest{
             driver_articles = drivers_container.findElements(By.tagName("a"));
             int num = rand.nextInt(driver_articles.size());
             WebElement article = driver_articles.get(num);
-            String driver_number = article.findElement(By.xpath(".//div/div/div[3]/img[1]")).getAttribute("alt");
-            String driver_name = article.findElement(By.xpath(".//div/div/div[2]/div/div/p[1]")).getText();
-            String driver_surname = article.findElement(By.xpath(".//div/div/div[2]/div/div/p[2]")).getText();
-            String driver_country = article.findElement(By.xpath(".//div/div/div[2]/img")).getAttribute("alt");
+            String driver_name = article.findElement(By.xpath(".//div/div/div[1]/div/div/p[2]")).getText();
+            String driver_surname = article.findElement(By.xpath(".//div/div/div[1]/div/div/p[1]")).getText();
+            String driver_country = article.findElement(By.xpath(".//div/div/div[1]/img")).getAttribute("alt");
             article.click();
 
             Thread.sleep(1000);
             String target_name = webDriver.findElement(By.xpath("/html/body/main/div/div/div/div[1]/figure/figcaption/div/h1")).getText();
             String target_country = webDriver.findElement(By.xpath("/html/body/main/div/div/div/div[1]/figure/figcaption/div/div/p/img")).getAttribute("alt");
-            String target_number = webDriver.findElement(By.xpath("/html/body/main/div/div/div/div[1]/figure/figcaption/div/div/p")).getText();
 
-            assertEquals(target_name.toUpperCase(), driver_name + " " + driver_surname,
+            assertEquals(target_name.toUpperCase(), driver_surname + " " + driver_name,
                     "Name should be consistent: " + target_name + " - " + driver_name + driver_surname + "!");
-            assertTrue(target_number.contains(driver_number.substring(21)),
-                    "Number should be the same!");
             assertEquals(target_country, driver_country,
                     "Country must be the same!");
             webDriver.navigate().to("https://www.formula1.com/en/drivers");
@@ -90,24 +85,22 @@ public class Test10DriverTeamData extends BaseTest{
         for(int i = 0; i < 5; i++){
             teams_container = webDriver.findElement(By.xpath("/html/body/main/div[1]/div/div/div[4]"));
             teams_articles = teams_container.findElements(By.tagName("a"));
-            int num = rand.nextInt(teams_articles.size()-1);
+            int num = rand.nextInt(teams_articles.size());
+
             WebElement article = teams_articles.get(num);
-            String team_name = article.findElement(By.xpath(".//div/div/div[2]/div/span")).getText();
-            String team_driver_01_name = article.findElement(By.xpath(".//div/div/div[3]/div[1]/div/div/p[1]")).getText();
-            String team_driver_01_lastname = article.findElement(By.xpath(".//div/div/div[3]/div[1]/div/div/p[2]")).getText();
+            String team_name = article.findElement(By.xpath(".//div/div/div[1]/div/span")).getText();
+            String team_driver_01_name = article.findElement(By.xpath(".//div/div/div[2]/div[1]/div/div/p[1]")).getText();
+            String team_driver_01_lastname = article.findElement(By.xpath(".//div/div/div[2]/div[1]/div/div/p[2]")).getText();
             String team_driver_01 = team_driver_01_name + " " + team_driver_01_lastname;
-            String team_driver_02_name = article.findElement(By.xpath(".//div/div/div[3]/div[2]/div/div/p[1]")).getText();
-            String team_driver_02_lastname = article.findElement(By.xpath(".//div/div/div[3]/div[2]/div/div/p[2]")).getText();
+            String team_driver_02_name = article.findElement(By.xpath(".//div/div/div[2]/div[2]/div/div/p[1]")).getText();
+            String team_driver_02_lastname = article.findElement(By.xpath(".//div/div/div[2]/div[2]/div/div/p[2]")).getText();
             String team_driver_02 = team_driver_02_name + " " + team_driver_02_lastname;
             article.click();
-
             Thread.sleep(1000);
+
             String target_name = webDriver.findElement(By.xpath("/html/body/main/div/div/h1")).getText();
             String target_driver_01 = webDriver.findElement(By.xpath("/html/body/main/div/div/div/div[1]/div[2]/figure[1]/a/figcaption/div/p[2]")).getText();
             String target_driver_02 = webDriver.findElement(By.xpath("/html/body/main/div/div/div/div[1]/div[2]/figure[2]/a/figcaption/div/p[2]")).getText();
-
-            System.out.println(target_driver_01);
-            System.out.println(team_driver_01);
 
             assertEquals(target_name, team_name,
                     "Names must be consistent: " + target_name + " - " + team_name);

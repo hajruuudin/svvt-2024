@@ -4,11 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -19,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * test, meaning al headings, paragraphs, formating is done properly and shown on the whole Homepage.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test02HomePageMarkup extends BaseTest {
     @Order(1)
     @Test /* Test the homepage markup, like the title, headings and the URL and changes on the website */
@@ -34,7 +32,8 @@ public class Test02HomePageMarkup extends BaseTest {
         navbar_nav.get(0).click();
         WebElement driver_standings = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[2]/div[1]/div/h2"));
         assertEquals("2024 Driver Standings", driver_standings.getText());
-        Thread.sleep(500);
+        Thread.sleep(50000);
+
 
         navbar_nav.get(1).click();
         WebElement constructor_standings = webDriver.findElement(By.xpath("/html/body/main/div[4]/div[2]/div[2]/div/h2"));

@@ -5,10 +5,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
 import java.util.Iterator;
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,9 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * all the links work and the styling is appropriate.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test14F1HospitalityHomepage extends BaseTest {
     @Order(1)
-    @Test
+    @Test /* Test the F1 hospitality page markup and its content */
     void testHomepageMarkup() throws InterruptedException {
         WebElement nav_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[4]/a"));
         nav_button.click();
@@ -75,7 +74,7 @@ public class Test14F1HospitalityHomepage extends BaseTest {
     };
 
     @Order(2)
-    @Test
+    @Test /* Test the F1 hospitality page links */
     void testHomepageLinks() throws InterruptedException {
         WebElement nav_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[4]/a"));
         nav_button.click();

@@ -1,8 +1,4 @@
 import Utils.HelperMethod;
-//import lombok.extern.slf4j.Slf4j;
-import net.lightbody.bmp.BrowserMobProxy;
-import net.lightbody.bmp.BrowserMobProxyServer;
-import net.lightbody.bmp.client.ClientUtil;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,13 +6,10 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
-
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 
 /**
  * This is the Base class for all other derived test scenarios. It includes the setup variables
@@ -32,10 +25,15 @@ import static org.junit.jupiter.api.Assertions.*;
  * Additionally, any methods which are frequently used during our testing are extracted to this class and
  * provided in any descendant class.
  */
+@SuppressWarnings("all")
 public class BaseTest {
+    // The WebDriver which enables us to detect element and run Selenium:
     protected static WebDriver webDriver;
+    // The baseUrl set to: https://www.formula1.com
     protected static String baseUrl;
+    // The Javascript Executor, mainly used when we have scrolling issues:
     protected static JavascriptExecutor js;
+    // The Actions variable, which enables us to effectively move the cursor and perform actions if necessary:
     protected static Actions actions;
 
     /**
@@ -47,25 +45,24 @@ public class BaseTest {
      */
     @BeforeAll
     static void setUp() throws InterruptedException {
+        // Since both of us mostly worked on this separately, we needed to adapt the driver to the user devices:
         String currentUser = System.getProperty("user.dir");
-        System.out.println(currentUser);
 
         if(currentUser.contains("Users/hajrudin.imamovic")){
-            // In case Hajrudin Imamovic is running the tests on his machine
+            // In case Hajrudin Imamovic is running the tests on his machine:
             System.setProperty("webdriver.chrome.driver", "/Users/hajrudin.imamovic/Documents/Drivers/chromedriver");
 
         } else {
-            // In case Tarik Perviz is running the tests on his machine
-
+            // In case Tarik Perviz is running the tests on his machine:
             System.setProperty("webdriver.chrome.driver", "C:/Users/TarikPerviz/selenium/chromedriver-win64/chromedriver.exe");
         }
 
-        // These are some options which we tried to add to bypass the bot detection for the log in and sign up tests
+        // These are some options which we tried to add to bypass the bot detection for the login and sign up tests
         // Unfortunately, nothing seemed to work so far. Here's a rundown of what we tried:
         // - Making the browser look like a human is controlling it: FAILED
         // - Using custom arguments to remove bot-like behaviour: FAILED
         // - Using a custom proxy server with node.js cors-anywhere library: FAILED
-        // - Using an in-build java library: BrowserMobProxy: FAILED al treba jos pokusat
+        // - Using an in-build java library: BrowserMobProxy: FAILED
         // - Run the browser in headless mode only for the log in test: FAILED
         // - Add cookies to the session to mimic logging in: FAILED
 
@@ -84,20 +81,19 @@ public class BaseTest {
         options.addArguments("--disable-extensions");
         options.addArguments("--disable-component-update");
         options.addArguments("--disable-background-networking");
-
         webDriver = new ChromeDriver(options);
-
         baseUrl = "https://www.formula1.com/";
+
+        // Initially, we will always direct to the www.formula1.com webpage.
         webDriver.get(baseUrl);
-        // Because we sometimes ran into the problem of some areas not loading before
-        // selenium gets to them, we decided to add this waiting setting before adding an error.
+        // Because we sometimes ran into the problem of some areas not loading before selenium gets to them, we decided to add this waiting setting before getting an error.
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         // In case we want to execute javascript in our test case:
         js = (JavascriptExecutor) webDriver;
         // In case we need some actions executed in our test case:
         actions = new Actions(webDriver);
 
-
+        // Finally, a thread sleep will enable us to reject cookies on the main page, essential for making the tests function.
         Thread.sleep(3000);
     }
 
@@ -121,7 +117,9 @@ public class BaseTest {
     }
 
     /* =================================================================================== */
+    /* =================================================================================== */
     /* ==== THE FOLLOWING IS A COLLECTION OF COMMONLY USED METHODS DURING OUR TESTING ==== */
+    /* =================================================================================== */
     /* =================================================================================== */
 
     /**
@@ -141,7 +139,8 @@ public class BaseTest {
 
     /**
      *
-     * Method to scroll over each element of the navbar. Specific to this class of testing.
+     * Method to scroll over each element of the navbar and click on it. Will also
+     * scroll by 900 to ensure the content is visible.
      *
      * @param element_id The id of the navbar element
      * @throws InterruptedException if the thread is interrupted during execution.
@@ -322,5 +321,22 @@ public class BaseTest {
         Thread.sleep(1000);
         assertEquals("https://account.formula1.com/#/en/register?lead_source=web_f1core&redirect=https%253A%252F%252Faccount.formula1.com%252F%2523%252Fen%252Fsubscription", webDriver.getCurrentUrl());
         webDriver.navigate().to("https://www.formula1.com/en-ba/subscribe-to-f1-tv");
+    }
+
+    /**
+     * Method to close all window handles except the current window handle, or some other specified.
+     *
+     * @param currentWindow  The window handle we do NOT want to close.
+     */
+    @HelperMethod
+    public static void closeOtherWindows(String currentWindow){
+        Set<String> allWindows = webDriver.getWindowHandles();
+
+        for (String window : allWindows) {
+            if (!window.equals(currentWindow)) {
+                webDriver.close();
+                break;
+            }
+        }
     }
 }

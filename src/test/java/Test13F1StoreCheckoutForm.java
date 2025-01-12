@@ -4,10 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import java.util.Iterator;
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -19,9 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * we can proceed to checkout and fill in the information as desired.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test13F1StoreCheckoutForm extends BaseTest{
     @Order(1)
-    @Test
+    @Test /* Test SHOULD check the checkout form with proper input */
     void testCheckoutFormSuccess() throws InterruptedException {
         WebElement store_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[2]/a"));
         store_button.click();
@@ -46,8 +45,8 @@ public class Test13F1StoreCheckoutForm extends BaseTest{
         WebElement max = webDriver.findElement(By.xpath("/html/body/div[2]/div/div[7]/div[2]/div[2]/div/div[2]/div[2]/div/div[1]/div[1]/div/a/img"));
         max.click();
         Thread.sleep(500);
-        WebElement xlRadioButton = webDriver.findElement(By.xpath("//label[@class='radio size-selector-button available']//input[@value='XL']"));
-        xlRadioButton.click();
+//        WebElement xlRadioButton = webDriver.findElement(By.xpath("//label[@class='radio size-selector-button available']//input[@value='XL']"));
+//        xlRadioButton.click();
         Thread.sleep(500);
         WebElement addToCart = webDriver.findElement(By.xpath("/html/body/div[2]/div/div[6]/div[2]/div[11]/div/div/div[5]/div/div[2]/div/div[1]/div[1]/button"));
         addToCart.click();
@@ -92,8 +91,9 @@ public class Test13F1StoreCheckoutForm extends BaseTest{
         Thread.sleep(5000);
         assertEquals("https://f1store.formula1.com/payment", webDriver.getCurrentUrl());
     };
+
     @Order(2)
-    @Test
+    @Test /* Test SHOULD check the checkout form with improper input */
     void testCheckoutFormFailure() throws InterruptedException{
         WebElement store_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[2]/a"));
         store_button.click();
@@ -111,8 +111,8 @@ public class Test13F1StoreCheckoutForm extends BaseTest{
         WebElement max = webDriver.findElement(By.xpath("/html/body/div[2]/div/div[7]/div[2]/div[2]/div/div[2]/div[2]/div/div[1]/div[1]/div/a/img"));
         max.click();
         Thread.sleep(500);
-        WebElement xlRadioButton = webDriver.findElement(By.xpath("//label[@class='radio size-selector-button available']//input[@value='XL']"));
-        xlRadioButton.click();
+//        WebElement xlRadioButton = webDriver.findElement(By.xpath("//label[@class='radio size-selector-button available']//input[@value='XL']"));
+//        xlRadioButton.click();
         Thread.sleep(500);
         WebElement addToCart = webDriver.findElement(By.xpath("/html/body/div[2]/div/div[6]/div[2]/div[11]/div/div/div[5]/div/div[2]/div/div[1]/div[1]/button"));
         addToCart.click();
@@ -129,7 +129,5 @@ public class Test13F1StoreCheckoutForm extends BaseTest{
         WebElement error = webDriver.findElement(By.xpath("/html/body/div[2]/div/div[6]/div/form/div[1]/div[2]/div[1]/div[1]/div"));
         assertTrue(error.isDisplayed());
         Thread.sleep(1000);
-
-
     }
 }
