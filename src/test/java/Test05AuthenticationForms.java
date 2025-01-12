@@ -5,11 +5,11 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
+import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * <b> <font color="red">TEST 05 - CRITICAL - REPLACEMENT</font> </b> <br/>
+ * <b> <font color="red">TEST 05 - CRITICAL</font> </b> <br/>
  * <strong/> Category: Navigation, Verification & UI </strong> <br/>
  * <strong> Testing User sign up form and login functionality & UI</strong> <br/>
  * This scenario should cover the markup of the signup and login form. It should cover the
@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Session tests, related to logging in and singing up.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test05AuthenticationForms extends BaseTest {
     private static final String TITLE = "Mr";
     private static final String FIRSTNAME = "Mujo";
@@ -27,7 +28,7 @@ public class Test05AuthenticationForms extends BaseTest {
     private static final String PASS = "TpHi123#";
 
     @Order(1)
-    @Test /* FOR SOME REASON THIS DOES NOT WORK! Test the register form and its error messages */
+    @Test /* Test SHOULD test the register form and its error messages */
     void testSignUpForm() throws InterruptedException {
         WebElement sign_in_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/div/a[1]"));
         sign_in_button.click();
@@ -41,6 +42,11 @@ public class Test05AuthenticationForms extends BaseTest {
 
         assertEquals("https://account.formula1.com/#/en/register?redirect=https%3A%2F%2Fwww.formula1.com%2F&lead_source=web_f1core", webDriver.getCurrentUrl());
         Thread.sleep(1000);
+
+        WebElement register_button = webDriver.findElement(By.xpath("/html/body/div[2]/div/div/div[2]/form/div[10]/div[1]/button"));
+        scrollToElement(register_button, 0);
+        register_button.click();
+        Thread.sleep(2000);
 
         WebElement e_firstName = webDriver.findElement(By.xpath("/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/p"));
         WebElement e_lastName = webDriver.findElement(By.xpath("/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/p"));
@@ -131,6 +137,38 @@ public class Test05AuthenticationForms extends BaseTest {
         assertEquals("Sorry something went wrong", error.getText());
 
         Thread.sleep(1000);
+    }
+
+    @Order(3)
+    @Test /* This test SHOULD assert that the user is logged in and check that the user is logged in via UI changes */
+    void testLogIn() throws InterruptedException, IOException {
+        Thread.sleep(1000);
+        WebElement sign_in_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/div/a[1]"));
+        actions.moveToElement(sign_in_button).perform();
+        actions.click().perform();
+
+
+        Thread.sleep(3000);
+        assertEquals(
+                "https://account.formula1.com/#/en/login?redirect=https%3A%2F%2Fwww.formula1.com%2F&lead_source=web_f1core",
+                webDriver.getCurrentUrl(),
+                "The URL should be redirected to the Log In Page"
+        );
+
+        WebElement email_input = webDriver.findElement(By.xpath("/html/body/div[1]/main/div/div[2]/div/form/div[2]/input"));
+        WebElement password_input = webDriver.findElement(By.xpath("/html/body/div[1]/main/div/div[2]/div/form/div[3]/input"));
+        WebElement sign_in = webDriver.findElement(By.xpath("/html/body/div[1]/main/div/div[2]/div/form/div[4]/button"));
+
+        logIn(
+                email_input,
+                password_input,
+                sign_in,
+                "svvttest2024@gmail.com",
+                "TpHi123#"
+        );
+        Thread.sleep(2000);
+
+        assertEquals(baseUrl, webDriver.getCurrentUrl());
     }
 
 }

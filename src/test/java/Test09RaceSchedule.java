@@ -5,10 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import java.util.List;
 import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -20,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * proper navigation and that the data is accurate on all races.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test09RaceSchedule extends BaseTest{
     @Order(1)
     @Test /* Test to cover if the dropdown navigation is functional in the "Schedule" section */

@@ -4,11 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -21,20 +17,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * proper navigation and that the data is accurate on all tickets...
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test08F1TicketsPage extends BaseTest{
     @Order(1)
-    @Test
+    @Test /* This test goes over the tickets page markup, focusing on the title, header and page name */
     void testF1TicketsMarkup() throws InterruptedException {
         WebElement tickets_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[3]/a"));
         tickets_button.click();
-        Set<String> windowHandles = webDriver.getWindowHandles();
-        Iterator<String> iterator = windowHandles.iterator();
-        String originalTab = iterator.next();
-        String newTab = iterator.next();
-        webDriver.switchTo().window(newTab);
-        webDriver.switchTo().window(originalTab);
-        webDriver.close();
-        webDriver.switchTo().window(newTab);
+        switchWindow(webDriver.getWindowHandle());
         Thread.sleep(5000);
 
         String page_title = webDriver.getTitle();
@@ -48,7 +38,7 @@ public class Test08F1TicketsPage extends BaseTest{
     }
 
     @Order(2)
-    @Test
+    @Test /* This test goes over each ticket article and test if the styling changes appropriately */
     void testF1TicketsStyling() throws InterruptedException {
         WebElement tickets_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/ul[2]/li[3]/a"));
         tickets_button.click();

@@ -4,11 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * <b> <font color="red">TEST 06 - CRITICAL - REPLACEMENT</font> </b> <br/>
+ * <b> <font color="red">TEST 06 - CRITICAL</font> </b> <br/>
  * <strong/> Category: Navigation & Authorisation </strong> <br/>
  * <strong> Testing Authorisation on the Webpage</strong> <br/>
  * This scenario should cover the session handling inside the web application, ensuring that
@@ -16,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * This test serves as one of the two replacement tests for the Session tests, related to logging in and singing up.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test06SecurityConventions extends BaseTest{
     @Order(1)
     @Test /* Test the F1 subscribe page and that all of its buttons will not allow subscribing without logging in */
@@ -31,7 +31,7 @@ public class Test06SecurityConventions extends BaseTest{
     }
 
     @Order(2)
-    @Test
+    @Test /* Test to see if the HTTP2 protocol is implemented on all F1 related main pages */
     void testHttpsProtocol() throws InterruptedException {
         String currentUrl = webDriver.getCurrentUrl();
         assert currentUrl != null;

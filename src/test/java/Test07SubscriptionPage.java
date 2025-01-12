@@ -5,7 +5,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -16,10 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * button styling, UI changes...
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test07SubscriptionPage extends BaseTest{
-    // TO-DO
     @Order(1)
-    @Test
+    @Test /* Test the subscription page markup and its functionality */
     void testPageMarkup() throws InterruptedException {
         WebElement subscribe_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/div/a[2]"));
         subscribe_button.click();
@@ -101,7 +100,7 @@ public class Test07SubscriptionPage extends BaseTest{
     };
 
     @Order(2)
-    @Test
+    @Test /* Test the subscription page button navigation and that it leads to the login page */
     void testPageNavigation() throws InterruptedException{
         WebElement subscribe_button = webDriver.findElement(By.xpath("/html/body/header/section[2]/nav/div/a[2]"));
         subscribe_button.click();
@@ -118,7 +117,5 @@ public class Test07SubscriptionPage extends BaseTest{
         loginButton.click();
         Thread.sleep(500);
         assertEquals("https://account.formula1.com/#/en/login?lead_source=web_f1core&redirect=https%253A%252F%252Faccount.formula1.com%252F%2523%252Fen%252Fsubscription", webDriver.getCurrentUrl());
-
-
     };
 }

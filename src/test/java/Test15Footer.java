@@ -5,9 +5,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import javax.swing.*;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -18,9 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * footer should have proper semantics and have links on it function and lead to the proper destinations.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test15Footer extends BaseTest{
     @Order(1)
-    @Test
+    @Test /* Test the F1 footer social links, like Facebook, X, Instagram and YouTube */
     void testFooterSocialLinks() throws InterruptedException {
         Actions action = new Actions(webDriver);
         String originalTab = webDriver.getWindowHandle();
@@ -73,7 +71,7 @@ public class Test15Footer extends BaseTest{
     };
 
     @Order(2)
-    @Test
+    @Test /* Test the F1 footer links related to the F1 page */
     void testFooterLinks()  throws InterruptedException {
         Actions action = new Actions(webDriver);
         WebElement link;

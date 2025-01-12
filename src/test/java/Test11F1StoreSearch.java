@@ -2,14 +2,10 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import java.util.List;
 import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -20,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * It also tests to ensure that any random string will not find any results.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test11F1StoreSearch extends BaseTest {
     @Order(1)
     @Test /* Test to see if a proper search will lead to normal results */
@@ -49,6 +46,8 @@ public class Test11F1StoreSearch extends BaseTest {
 
             assertTrue(match, "The item name should contain the keyword: " + item_name.toLowerCase() + " - " + "max or champion");
         }
+
+        switchWindow(webDriver.getWindowHandle());
     }
 
     @Order(2)

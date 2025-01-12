@@ -3,10 +3,8 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -21,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * properly displayed. This test covers design and functionality bugs.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SuppressWarnings("all")
 public class Test01MainNavbar extends BaseTest {
     @Order(1)
     @Test /* Open the first nav link and test its initial content */
